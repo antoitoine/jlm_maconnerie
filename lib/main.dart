@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const App());
@@ -67,6 +68,8 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MainAppBar({super.key});
 
   static const double appBarHeight = 80;
+
+  final String _phoneNumber = "0681795282";
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +145,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 16.0, top: 8.0, bottom: 8.0),
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: _launchPhoneCall,
                   icon: const Icon(Icons.phone, size: 16, color: Colors.white),
                   label: const Text(
                     "01 02 03 04 05",
@@ -167,6 +170,12 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _launchPhoneCall() async {
+    if (!await launchUrl(Uri.parse("tel://$_phoneNumber"))) {
+      throw Exception('Could not call $_phoneNumber');
+    }
   }
 
   @override
